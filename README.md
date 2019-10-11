@@ -74,7 +74,7 @@ PLAY [all] *********************************************************************
 
 Once it is finished, the latest forge-cli version is installed to these inventories.
 
-Then you can run the `init_forge_network` task:
+Then you can run the `init_forge_network` task (before running that for your production network please tune the moderator_address/moderator_pk, see the configuration section for more information):
 
 ```bash
 $ make deploy
@@ -111,4 +111,27 @@ init_forge_network has several steps:
 
 Major code is at `src/roles/forge`.
 
+## configuration
+
 The main configuration is at `src/inventories/group_vars/all/config`. Feel free to tune it.
+
+Note that you MUST change the moderator_address / moderator_pk to your own one. You can use forge-cli to generate one:
+
+```bash
+$ forge wallet:create
+? Please select a role type: ROLE_ACCOUNT
+? Please select a key pair algorithm: ED25519
+? Please select a hash algorithm: SHA3
+? Please select public/secret key encoding format: BASE64_URL
+
+type:
+  role:    ROLE_ACCOUNT
+  pk:      ED25519
+  hash:    SHA3
+  address: BASE58
+address:       z1Ur9ib3sZ7s3xgq4ZobKcP7hWrZP2419ZH
+pk_base64_url: bPP06Gh3hYVJWoL3EfF3ATwZrCxmtt43ANc7ZwaqHZE
+sk_base64_url: ********
+```
+
+then put the address/pk_base64_url to the moderator_address/ moderator_pk in the `src/inventories/group_vars/all/config`, and keep `sk_base64_url` in a secret place (upgrade chain / deploy protocol need to use this sk).

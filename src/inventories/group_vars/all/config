@@ -23,5 +23,6 @@ get_node_key: "{{ config_path }}/node_key.json"
 # Note that if you want to use backup_key role, please make sure you can access aws, and you have a bucket called 'forge-validators'. Feel free to tune forge/backup_key role to fit for your own needs.
 backup_keys: false
 
+# Here you shall create your own wallets and put the url_base64 address/pk here. You shall keep the sk in a secure place.
 moderator_address: z1XDsdEwRskqFfhY89EV2ZpAC2zKZQCLmjR
 moderator_pk: gdhB4gBzwJ9y99UHsU3nCDRRE3xHIxCX2Jaaw0KtdMc
