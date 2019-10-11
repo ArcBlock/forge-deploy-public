@@ -1,0 +1,72 @@
+---
+- name: set genesis time
+  set_fact: genesis_time="{{ ansible_date_time.iso8601_micro }}"
+  run_once: true
+
+- name: generate full chain id
+  set_fact: full_chain_id="{{ chain_id | default('forge') }}-{{ ansible_date_time.date }}"
+  run_once: true
+
+- name: 'make sure the directory  exists'
+  file: path="{{ item }}" state=directory owner="{{ forge_user }}"
+  with_items:
+    - /opt/forge
+    - '{{ config_path }}'
+    - '{{ log_base }}'
+  become: true
+  become_user: root
+
+- name: configure temporary forge release configuration for one time use
+  template: src=forge_release_temp.toml.j2 dest="{{ forge_config }}"
+
+- name: generate tendermint configuration and register
+  shell: "{{ forge_env }} {{ forge_bin }} eval '{{ cmd_gen_key }}'"
+
+- include: node.yml
+
+- include: validator.yml
+
+- name: configure forge release configuration
+  template: src=forge_release.toml.j2 dest="{{ forge_config }}"
+
+- include_role: name=forge/backup_key
+  when: backup_keys == true
+
+- name: clean forge release data
+  file: path="{{ data_path }}/{{ item }}" state=absent
+  with_items:
+    - cache
+    - core
+    - ipfs
+    - tendermint
+
+- name: generate tendermint data path
+  file: path="{{ data_path }}/{{ item }}" state=directory
+  with_items:
+    - tendermint
+    - tendermint/data
+
+- name: configure init tendermint priv validator state
+  template: src="{{ item }}.j2" dest="{{ data_path }}/tendermint/data/{{ item }}"
+  with_items:
+    - priv_validator_state.json
+
+- name: configure forge cli configuration
+  template: src=.forgerc.yml.j2 dest="~/.forgerc.yml"
+
+- name: get running processes related with tendermint
+  shell: "ps -ef | grep -v grep | grep -w tendermint | awk '{print $2}'"
+  register: running_tendermint
+
+- name: kill running tendermint
+  shell: 'kill {{ item }}'
+  with_items: '{{ running_tendermint.stdout_lines }}'
+  ignore_errors: yes
+
+- name: wait for process gets killed
+  wait_for:
+    timeout: 20
+    path: '/proc/{{ item }}/status'
+    state: absent
+  with_items: '{{ running_tendermint.stdout_lines }}'
+  ignore_errors: yes

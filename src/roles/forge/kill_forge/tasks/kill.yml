@@ -1,0 +1,6 @@
+---
+- name: kill forge related processed
+  include_role:
+    name: common/kill_process
+  vars:
+    process_name: forge_cli

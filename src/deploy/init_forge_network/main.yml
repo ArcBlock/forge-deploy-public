@@ -1,0 +1,31 @@
+- hosts: all
+  become: true
+  environment:
+    PATH: /usr/local/bin:{{ ansible_env.PATH }}
+  vars:
+    max_bytes: 250000
+    max_gas: -1
+    token_name: 'ArcBlock TBA'
+    token_symbol: 'TBA'
+    token_desc: 'ArcBlock TBA'
+    initial_supply: 5750000000
+    total_supply: 7500000000
+  vars_prompt:
+    - name: 'version'
+      prompt: "What's the forge version?"
+      default: '0.38.7'
+      private: no
+    - name: 'use_data_disk'
+      prompt: 'Do you have a separate data disk?'
+      default: false
+      private: no
+  pre_tasks:
+    - set_fact: use_data_disk='{{ use_data_disk|bool }}'
+    - name: create non-priviliged user
+      user: name="{{ forge_user | default('forge') }}" shell=/bin/bash generate_ssh_key=yes state=present
+  roles:
+    - role: forge/show_info
+      run_once: true
+    - role: forge/mount_volume
+    - role: forge/init_forge_network
+      become_user: '{{ forge_user }}'

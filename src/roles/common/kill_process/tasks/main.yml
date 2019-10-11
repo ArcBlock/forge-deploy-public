@@ -1,0 +1,17 @@
+---
+- name: "get running processes related with {{ process_name }}"
+  shell: "ps -ef | grep -v grep | grep -w {{ process_name }} | awk '{print $2}'"
+  register: running_processes
+
+- name: kill running processes
+  shell: "kill {{ item }}"
+  with_items: "{{ running_processes.stdout_lines }}"
+  ignore_errors: yes
+
+- name: wait for process gets killed
+  wait_for:
+    timeout: 20
+    path: "/proc/{{ item }}/status"
+    state: absent
+  with_items: "{{ running_processes.stdout_lines }}"
+  ignore_errors: yes

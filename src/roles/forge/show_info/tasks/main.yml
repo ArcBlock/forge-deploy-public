@@ -1,0 +1,2 @@
+---
+- debug: msg="You are going to execute on chain {{ chain_id }}"

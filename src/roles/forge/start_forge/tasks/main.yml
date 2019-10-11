@@ -1,0 +1,10 @@
+---
+- name: 'start forge'
+  shell: 'forge start'
+  become_user: '{{ forge_user }}'
+  become: true
+
+- name: start forge web
+  shell: 'forge web start'
+  become_user: '{{ forge_user }}'
+  become: true

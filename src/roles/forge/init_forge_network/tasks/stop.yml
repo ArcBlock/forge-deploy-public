@@ -1,0 +1,23 @@
+---
+- include_role: name=forge/kill_forge
+
+- name: kill simulator in case it is not cleaned
+  include_role:
+    name: common/kill_process
+  vars:
+    process_name: simulator
+
+- name: clean forge release data
+  file: path="{{ data_path }}/{{ item }}" state=absent
+  with_items:
+    - cache
+    - core
+    - ipfs
+    - tendermint
+
+- name: clean forge cli folder
+  file: path="{{ cli_path }}" state=absent
+
+- name: 'install forge {{ version }}'
+  command: 'forge install {{ version }}'
+  ignore_errors: true

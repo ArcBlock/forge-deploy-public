@@ -1,0 +1,2 @@
+---
+starter_bin: "{{ cli_path }}/release/forge_starter/*/bin/forge_starter"

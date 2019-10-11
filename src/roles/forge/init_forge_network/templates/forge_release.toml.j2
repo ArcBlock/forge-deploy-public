@@ -1,0 +1,87 @@
+[app]
+name = ""
+version = ""
+path = ""
+executable = ""
+sock_tcp = ""
+
+[forge]
+proto_version = 1
+path = "{{ data_path }}/core"
+logpath = "{{ log_base }}/core"
+sock_grpc = "tcp://127.0.0.1:28210"
+pub_sub_key = "ABTTOTHEMOON"
+
+[forge.web]
+enabled = true
+
+[forge.token]
+name = "{{ token_name | default('Arcblock Token') }}"
+symbol = "{{ token_symbol | default('ABT') }}"
+unit = "arc"
+description = "{{ token_desc | default('ArcBlock Token') }}"
+decimal = {{ decimal | default(16) }}
+initial_supply = {{ initial_supply | default(186000000) }}
+total_supply = {{ total_supply | default(186000000) }}
+inflation_rate = {{ inflation_rate | default(0) }}
+icon = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAOxAAADsQBlSsOGwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAT5SURBVHic7ZxLiB1FFIa/meiYSYzvxDdGVHRUNGA2iYqbRHQxaNQJUWMCgiCCuNdFVsaFiLiJKArGGZ8giqLgK2AQRVTEB0FRNKhk0CSO6EQd44wuyqbrVO7cZ1ed7tvng4bpe6tP/VPddar6VJ0LhmEYhmEYhmEYhmEYhmEYhmEYRhVYCpymLcJwjAIzwCxwl7IWA/gY+Pf/4xfgCF059eZ88puRHderKuqRQW0BPbKpwWe3JFdhAO5h+p5De8jfwAmKumrLGg69Gdlxh6Ku2rIdeRNmvb/fV9RVSxYDv5HfgF3AS8gbdK6auh6o6qC+DljinY8DE0GZm9LJMV4n7wlzwHJgITDlff4dMKCkr1acAvxD3vA7vO8eRbqtS5Or65EquqybgQXe+bj3d+i27J0kAZ+S94A/gKO97waAb73vLZQSmRVIl/R0gzL3BmWuS6auhjyAbOyrG5Q5LyjzYjJ1NWMBsIe8oX8CDpun7IdeuRkqFEqp0qC+FjjZO5/AzbYa4Q/uQ8D6WKLqzFNIV7SiSdllwEGvrIVSCuZIYJq8gb9o45rXkDewEqGUqrisMVz8KmN7G9dYKCUiO5BR3XY2NCxCBiAtlFIQpyJDJW90cO0TSLdV+lBKFVzWJuYPlbTCQikR+Jz8CZ/GDfDtMgj84F1voZQeWYl0OU92YeP+wIaFUnrgIWRjru3CxkWBjZeBY3s45osOlJ7bkQtG/XIcAG4tsJ0EMaeBU8AxEe1rMolbKCucmLOsHyPa1uarWIZj9pCzcW5rSauCDTgK2OCd76az949GXA6MeOev4J70TtkDbAP29qinUtyG9Nt3FmBzQ2BzSwE2a8NO8oY7CJxYgM1wV8o3WCilLc7Abe3xp6lF8Tiyl6wq0HYhlDF0shn55HYSKmlFaMtCKW3wJfkT/CswXKDtAVzUN7O/HwulNGUV0qU8EqGOrUEd10aoo2/YhmysyyLUMRLU8UKEOvqCIWAfeUPtJt4s6COvnhng+Ej1dEyZBvVRZMNk+R8x8Af3IeCGSPVUmpT5HctwqW9ZXe9GrKuSHAf8Rd5A7yWo81WvvjngrAR1tiTmm+pVwH24uFQrhpGb4GZwG6ljMox7e884gOs1rZgC7gGejSEq5g2ZBE6KaF+TvTi3VzgxB/XfI9rWZn8swzGXI9cDd+OWPZtxIbInfUC6m7kIWO2dT9J6gJ8GHoymSBntBJtB3EJaVv8+3DS4tlyBnOo+rKAhzDkZVdBQGh5DNsbq5sWjEGZlPa+goRSEC0Zfo7dg9Jmn408UN2dohk7WIf/xceKFSlrhbzldSE1DKX7+hvabcpj7/o6iFhXCDKedunIAeBP5gJypIULLZW1EvgMVuUzbLb6GAeBGLSEafEJJBlGPxbgX0kxXtM1wZeMCyjvNnEBqW5lagIbL2hycl8FdZdRuV0qYQPMzcLiqIkkYSkmuL3UPWYNM2HwGN9sqC3PIdY6lwJVKWpKQvfyp+eg2uBipMcpCVBkIZzG7dOU0xf8JqKSzwJQuawyZsNlNvmAqwlBKX+Ylvk3+1M0Cp+vKaUqznxHsC8Lk/7d05bRFGEpZnqLSVC5rIzL5P0zoLyO+Sx1AZnRVnueQWazdpLmlJvwFor6abY2Ru6ytylo6YQv5/t9rlLUUzjnAJdoiumAEuYnPMAzDMAzDMAzDMAzDMAzDMAzD6IH/AHiBs4jYg7WwAAAAAElFTkSuQmCC"
+
+[forge.prime.moderator]
+address = "{{ moderator_address }}"
+pk = "{{ moderator_pk }}"
+balance = 0
+
+[forge.prime.token_holder]
+balance = {{ initial_supply | default(186000000) }}
+
+[[forge.accounts]]
+
+
+[tendermint]
+moniker = "{{ pretty_hostname }}"
+path = "{{ data_path }}/tendermint"
+logpath = "{{ log_base }}/tendermint"
+keypath = "{{ config_path }}"
+sock_proxy_app = "unix://socks/tm_proxy_app.sock"
+sock_rpc = "tcp://127.0.0.1:28221"
+sock_grpc = "tcp://127.0.0.1:28222"
+sock_p2p = "tcp://0.0.0.0:26656"
+sock_prof = ""
+{% if node_addresses | length > 1 %}
+persistent_peers = "{{ node_addresses.0 }},{{ node_addresses[1:] | random }}"
+{% else %}
+persistent_peers = "{{ node_addresses.0 }}"
+{% endif %}
+seed_peers = ""
+timeout_commit = "3s"
+create_empty_blocks = true
+seed_mode = false
+recheck = false
+
+[tendermint.genesis]
+genesis_time = "{{ genesis_time }}"
+chain_id = "{{ full_chain_id }}"
+max_bytes = {{ max_bytes | default(150000) }}
+max_gas = {{ max_gas | default(-1) }}
+app_hash = ""
+
+{% for validator in genesis_validators %}
+{% if validator.1 %}
+[[tendermint.genesis.validators]]
+address = "{{ validator.1.address }}"
+name = "{{ validator.0 }}"
+power = "1000"
+
+[tendermint.genesis.validators.pub_key]
+type = "{{ validator.1.pub_key.type }}"
+value = "{{ validator.1.pub_key.value }}"
+
+{% endif %}
+{% endfor %}
+
+[ipfs]
+path = "{{ data_path }}/ipfs"
+logpath = "{{ log_base }}/ipfs"
+
+[cache]
+path = "{{ data_path }}/cache/mnesia_data_dir"

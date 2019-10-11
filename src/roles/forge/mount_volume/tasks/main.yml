@@ -1,0 +1,23 @@
+---
+# - name: create a partition for the disk
+#   parted:
+#     device: "{{ forge_data_disk }}"
+#     number: 1
+#     state: present
+
+- name: Create a xfs filesystem on /dev/sdf and check disk blocks
+  filesystem:
+    fstype: '{{ fstype }}'
+    dev: '{{ forge_data_disk }}'
+  when: use_data_disk is defined and use_data_disk == true
+
+- name: Mount new disk
+  mount:
+    path: '{{ data_path }}'
+    src: '{{ forge_data_disk }}'
+    fstype: '{{ fstype }}'
+    state: mounted
+  when: use_data_disk is defined and use_data_disk == true
+
+- name: 'change owner of {{ data_path }} to {{ forge_user }}'
+  file: path="{{ data_path }}" state=directory owner="{{ forge_user }}" mode=0700

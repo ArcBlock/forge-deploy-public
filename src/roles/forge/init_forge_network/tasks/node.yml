@@ -1,0 +1,10 @@
+---
+- name: get node key
+  shell: "{{ cmd_show_node_id }}"
+  register: node_address
+
+- name: set node address
+  set_fact: node_address="{{ node_address.stdout }}@{{ public_ip }}:26656"
+
+- name: gather all node addresses
+  set_fact: node_addresses="{{ ansible_play_hosts | map('extract', hostvars, 'node_address') | list | difference(node_address | list) }}"

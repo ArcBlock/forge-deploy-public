@@ -1,0 +1,38 @@
+- hosts: all
+  become: true
+  become_user: root
+  environment:
+    PATH: /usr/local/bin:{{ ansible_env.PATH }}
+  vars_prompt:
+    - name: 'version'
+      prompt: "What's version to upgrade?"
+      default: 'latest'
+      private: no
+  tasks:
+    - name: retrieve latest nodejs
+      shell: /usr/bin/curl --silent --location https://rpm.nodesource.com/setup_11.x | bash
+
+    - name: install nodejs
+      yum: name=nodejs state=present
+
+    - name: retrieve yarn
+      shell: curl -sL https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo
+
+    - name: install yarn
+      yum: name=yarn state=present
+
+    - name: 'install forge-cli'
+      yarn:
+        name: '@arcblock/forge-cli'
+        global: yes
+        production: yes
+        version: '{{ version }}'
+      when: version != 'latest'
+
+    - name: install latest forge-cli
+      yarn:
+        name: '@arcblock/forge-cli'
+        global: yes
+        production: yes
+        state: latest
+      when: version == 'latest'

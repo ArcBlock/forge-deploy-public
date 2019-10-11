@@ -1,0 +1,41 @@
+---
+- name: retrieve priv validator config
+  shell: 'cat {{ get_validator_key }}'
+  register: validator_key_json
+
+- name: register the validator json
+  set_fact: validator="{{ validator_key_json.stdout | from_json }}"
+
+- name: ensure temp directory exists
+  file: path="{{ item }}" state=directory
+  with_items:
+    - '{{ local_tmp_folder }}'
+    - '{{ local_tmp_folder }}/{{ validator.address }}'
+  delegate_to: localhost
+  become: false
+
+- name: fetch a remote file to local
+  fetch:
+    src: '{{ key_path }}/{{ item }}'
+    dest: '{{ local_tmp_folder }}/{{ validator.address }}/{{ item }}'
+    flat: true
+  with_items:
+    - node_key.json
+    - priv_validator_key.json
+    - forge_release.toml
+
+- name: upload keys and configuration
+  s3_sync:
+    bucket: forge-validators
+    region: us-west-2
+    file_root: '{{ local_tmp_folder }}'
+    key_prefix: 'keys/{{ chain_id }}'
+  delegate_to: localhost
+  become: false
+  run_once: true
+
+- name: remove temp directory
+  file: path="{{ local_tmp_folder }}" state=absent
+  delegate_to: localhost
+  become: false
+  run_once: true

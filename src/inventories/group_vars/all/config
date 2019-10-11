@@ -1,0 +1,27 @@
+---
+forge_user: forge
+fstype: xfs
+forge_data_disk: /dev/xvdf
+data_path: "{% if use_data_disk %}/mnt/forge{% else %}/var/data/forge{% endif %}"
+
+cli_path: "~/.forge_cli"
+config_path: "/opt/forge/config"
+log_base: "/var/log/forge"
+
+forge_config: "{{ config_path }}/forge_release.toml"
+
+forge_env: "FORGE_CONFIG={{ forge_config }} FORGE_SOCK_GRPC=tcp://127.0.0.1:28210"
+
+p2p_port: 26656
+web_port: 8210
+
+health_api: /rest/v1/health
+
+get_validator_key: "{{ config_path }}/priv_validator_key.json"
+get_node_key: "{{ config_path }}/node_key.json"
+
+# Note that if you want to use backup_key role, please make sure you can access aws, and you have a bucket called 'forge-validators'. Feel free to tune forge/backup_key role to fit for your own needs.
+backup_keys: false
+
+moderator_address: z1XDsdEwRskqFfhY89EV2ZpAC2zKZQCLmjR
+moderator_pk: gdhB4gBzwJ9y99UHsU3nCDRRE3xHIxCX2Jaaw0KtdMc

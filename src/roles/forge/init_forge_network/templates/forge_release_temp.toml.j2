@@ -1,0 +1,61 @@
+[app]
+name = ""
+version = ""
+path = ""
+executable = ""
+sock_tcp = ""
+
+[forge]
+proto_version = 1
+path = "{{ data_path }}/core"
+logpath = "{{ log_base }}/core"
+sock_grpc = "tcp://127.0.0.1:28210"
+pub_sub_key = "ABTTOTHEMOON"
+
+[forge.stake.timeout]
+general = 10
+stake_for_node = 60
+
+[forge.web]
+enabled = true
+
+[forge.token]
+name = "{{ token_name | default('Arcblock Token') }}"
+symbol = "{{ token_symbol | default('ABT') }}"
+unit = "arc"
+description = "{{ token_desc | default('ArcBlock Token') }}"
+decimal = {{ decimal | default(16) }}
+initial_supply = {{ initial_supply | default(186000000) }}
+total_supply = {{ total_supply | default(186000000) }}
+inflation_rate = {{ inflation_rate | default(0) }}
+
+[tendermint]
+moniker = "{{ pretty_hostname }}"
+path = "{{ data_path }}/tendermint"
+logpath = "{{ log_base }}/tendermint"
+keypath = "{{ config_path }}"
+sock_proxy_app = "unix://socks/tm_proxy_app.sock"
+sock_rpc = "tcp://127.0.0.1:28221"
+sock_grpc = "tcp://127.0.0.1:28222"
+sock_p2p = "tcp://0.0.0.0:26656"
+sock_prof = ""
+persistent_peers = ""
+seed_peers = ""
+timeout_commit = "3s"
+create_empty_blocks = true
+seed_mode = false
+recheck = false
+
+[tendermint.genesis]
+genesis_time = "{{ genesis_time }}"
+chain_id = "{{ full_chain_id }}"
+max_bytes = {{ max_bytes | default(150000) }}
+max_gas = {{ max_gas | default(-1) }}
+app_hash = ""
+
+[ipfs]
+path = "{{ data_path }}/ipfs"
+logpath = "{{ log_base }}/ipfs"
+
+[cache]
+path = "{{ data_path }}/cache/mnesia_data_dir"
