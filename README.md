@@ -20,7 +20,7 @@ Make sure you have the nodejs > 10.x and yarn installed, then run `make init` to
 
 ### Creating the inventory file
 
-This reploy allows you to deploy multiple chains. Each chain is represented by an inventory file. You shall create a file in `src/inventories/<your-chain-id>-chain.init`. For example, `src/inventories/example-chain.ini`:
+This repo allows you to deploy multiple chains. Each chain is represented by an inventory file. You shall create a file in `src/inventories/<your-chain-id>-chain.init`. For example, `src/inventories/example-chain.ini`:
 
 ```
 [region1]
