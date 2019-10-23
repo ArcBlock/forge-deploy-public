@@ -19,7 +19,7 @@ function deploy(chainId, service) {
   console.log(`Deploying to ${service}...`);
   const vars = genVars(chainId);
   execSh(
-    `source /tmp/aws_token; cd ${srcPath}; ansible-playbook -i 'inventories/${chainId}-chain.ini' --extra-vars '${vars}' --vault-password-file .vault_password deploy/${service}/main.yml`
+    `cd ${srcPath}; ansible-playbook -i 'inventories/${chainId}-chain.ini' --extra-vars '${vars}' --vault-password-file .vault_password deploy/${service}/main.yml`
   );
 }
 const questions = [
