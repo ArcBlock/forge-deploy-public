@@ -1,4 +1,4 @@
 ---
 cmd_show_node_id: "{{ cli_path }}/release/forge/{{ version }}/lib/consensus-{{ version }}/priv/tendermint/tendermint --home {{ data_path }}/tendermint show_node_id"
-cmd_gen_key: "Application.ensure_all_started(:consensus)"
+cmd_gen_key: "Application.ensure_all_started(:consensus);Process.sleep(3000)"
 forge_bin: "{{ cli_path }}/release/forge/{{ version }}/bin/forge"

@@ -7,19 +7,19 @@
   set_fact: full_chain_id="{{ chain_id | default('forge') }}-{{ ansible_date_time.date }}"
   run_once: true
 
-- name: 'make sure the directory  exists'
+- name: "make sure the directory  exists"
   file: path="{{ item }}" state=directory owner="{{ forge_user }}"
   with_items:
     - /opt/forge
-    - '{{ config_path }}'
-    - '{{ log_base }}'
+    - "{{ config_path }}"
+    - "{{ log_base }}"
   become: true
   become_user: root
 
 - name: configure temporary forge release configuration for one time use
   template: src=forge_release_temp.toml.j2 dest="{{ forge_config }}"
 
-- name: generate tendermint configuration and register
+- name: "generate tendermint configuration and register: {{ forge_env }} {{ forge_bin }} eval '{{ cmd_gen_key }}'"
   shell: "{{ forge_env }} {{ forge_bin }} eval '{{ cmd_gen_key }}'"
 
 - include: node.yml
@@ -59,14 +59,14 @@
   register: running_tendermint
 
 - name: kill running tendermint
-  shell: 'kill {{ item }}'
-  with_items: '{{ running_tendermint.stdout_lines }}'
+  shell: "kill {{ item }}"
+  with_items: "{{ running_tendermint.stdout_lines }}"
   ignore_errors: yes
 
 - name: wait for process gets killed
   wait_for:
     timeout: 20
-    path: '/proc/{{ item }}/status'
+    path: "/proc/{{ item }}/status"
     state: absent
-  with_items: '{{ running_tendermint.stdout_lines }}'
+  with_items: "{{ running_tendermint.stdout_lines }}"
   ignore_errors: yes
