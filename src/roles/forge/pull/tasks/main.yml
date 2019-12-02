@@ -1,0 +1,6 @@
+---
+- name: "pull the remote data into my local storage"
+  synchronize:
+    mode: pull
+    src: "{{ path }}"
+    dest: "/tmp"
