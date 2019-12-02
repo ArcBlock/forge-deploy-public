@@ -5,18 +5,18 @@
   vars:
     max_bytes: 250000
     max_gas: -1
-    token_name: 'ArcBlock TBA'
-    token_symbol: 'TBA'
-    token_desc: 'ArcBlock TBA'
+    token_name: "ArcBlock TBA"
+    token_symbol: "TBA"
+    token_desc: "ArcBlock TBA"
     initial_supply: 5750000000
     total_supply: 7500000000
   vars_prompt:
-    - name: 'version'
+    - name: "version"
       prompt: "What's the forge version?"
-      default: '0.38.7'
+      default: "0.38.7"
       private: no
-    - name: 'use_data_disk'
-      prompt: 'Do you have a separate data disk?'
+    - name: "use_data_disk"
+      prompt: "Do you have a separate data disk?"
       default: false
       private: no
   pre_tasks:
@@ -28,4 +28,4 @@
       run_once: true
     - role: forge/mount_volume
     - role: forge/init_forge_network
-      become_user: '{{ forge_user }}'
+      become_user: "{{ forge_user }}"

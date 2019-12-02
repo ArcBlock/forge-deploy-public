@@ -1,0 +1,12 @@
+---
+- name: "synchronize forge core database from: rsync://{{ address }}{{ path }}/core"
+  synchronize:
+    mode: pull
+    src: "rsync://{{ address }}{{ path }}/core"
+    dest: "{{ path }}/core"
+
+- name: "synchronize tendermint database from: rsync://{{ address }}{{ path }}/tendermint/core"
+  synchronize:
+    mode: pull
+    src: "rsync://{{ address }}{{ path }}/tendermint/core"
+    dest: "{{ path }}/tendermint/core"

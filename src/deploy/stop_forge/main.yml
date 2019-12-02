@@ -1,0 +1,8 @@
+- hosts: all
+  become: true
+  environment:
+    PATH: /usr/local/bin:{{ ansible_env.PATH }}
+  roles:
+    - role: forge/show_info
+      run_once: true
+    - role: forge/kill_forge

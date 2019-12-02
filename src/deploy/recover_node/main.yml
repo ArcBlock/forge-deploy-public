@@ -1,0 +1,16 @@
+- hosts: unhealthy
+  become: true
+  environment:
+    PATH: /usr/local/bin:{{ ansible_env.PATH }}
+  vars_prompt:
+    - name: "address"
+      prompt: "IP of the healthy node?"
+      private: no
+    - name: "path"
+      prompt: "the absolute path of the forge data"
+      default: "/mnt/forge"
+      private: no
+  roles:
+    - role: forge/show_info
+      run_once: true
+    - role: forge/sync
