@@ -152,5 +152,5 @@ and then run `make deploy`, choose `recover`, then choose `pull_node` playbook. 
 
 If you don't want to use your local machine to do the transfer (this is a limiation of ansible), you can directly run rsync on the healthy machine to sync data to unhealthy ones. Note these folders shall be sync'ed:
 
-* <forge>/core
-* <forge>/tendermint/data
+* `<forge>/core`
+* `<forge>/tendermint/data`
