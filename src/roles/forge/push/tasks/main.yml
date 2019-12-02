@@ -1,8 +1,8 @@
 ---
-# - name: "synchronize forge core database to {{ path }}/core"
-#   synchronize:
-#     src: "/tmp/forge/core"
-#     dest: "{{ path }}/core"
+- name: "synchronize forge core database to {{ path }}/core"
+  synchronize:
+    src: "/tmp/forge/core"
+    dest: "{{ path }}/core"
 
 - name: "synchronize tendermint database to {{ path }}/tendermint/data"
   synchronize:

@@ -135,3 +135,22 @@ sk_base64_url: ********
 ```
 
 then put the address/pk_base64_url to the moderator_address/ moderator_pk in the `src/inventories/group_vars/all/config`, and keep `sk_base64_url` in a secret place (upgrade chain / deploy protocol need to use this sk).
+
+## How to recover failed nodes
+
+If certain bad siutation happened (e.g. filesystem corruption, physical disk error, unforseen issues) A node may calculate a differrent app hash than is peers. Then the node would be stopped and cannot move forward. To recover the stopped node, you can put an inventory file in `src/inventories` (e.g. `recover-chain.ini`) like this:
+
+```
+[healthy]
+1.1.1.1 private_ip=10.1.1.1 public_ip=1.1.1.1 pretty_hostname=node-1  ansible_user=<ssh user> node_type=validator chain_id=chain1 ansible_ssh_private_key_file=~/.ssh/<ssh key>
+
+[unhealthy]
+1.1.1.2 private_ip=10.1.1.2 public_ip=1.1.1.2 pretty_hostname=node-1  ansible_user=<ssh user> node_type=validator chain_id=chain1 ansible_ssh_private_key_file=~/.ssh/<ssh key>
+```
+
+and then run `make deploy`, choose `recover`, then choose `pull_node` playbook. This will download the data into your local machine at `/tmp`. Then run `make deploy` again, choose `recover`, then choose `recover_node` playbook. This will upload the data into unhealthy nodes.
+
+If you don't want to use your local machine to do the transfer (this is a limiation of ansible), you can directly run rsync on the healthy machine to sync data to unhealthy ones. Note these folders shall be sync'ed:
+
+* <forge>/core
+* <forge>/tendermint/data
