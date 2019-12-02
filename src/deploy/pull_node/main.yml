@@ -1,4 +1,4 @@
-- hosts: unhealthy
+- hosts: healthy
   environment:
     PATH: /usr/local/bin:{{ ansible_env.PATH }}
   vars_prompt:
@@ -9,4 +9,4 @@
   roles:
     - role: forge/show_info
       run_once: true
-    - role: forge/push
+    - role: forge/pull
